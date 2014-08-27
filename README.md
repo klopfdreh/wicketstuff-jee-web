@@ -4,11 +4,13 @@ The WicketJSPResolver is used to embed JSP content into wicked HTML pages, by a 
 
 Setup
 -----
+<pre>
 @Override
 protected void init() {
 	super.init();
 	getPageSettings().addComponentResolver(new WicketJSPResolver());
 }
+</pre>
 
 A tag specifies the location which JSP to load. (The argument is given to the getRequestDispatcher method of the ServletContext):
 
