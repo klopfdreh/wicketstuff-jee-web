@@ -98,8 +98,9 @@ public class WicketJSPResolver implements IComponentResolver {
      * Wicket HTML page
      */
     private static class JspFileContainer extends MarkupContainer {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = -4296125929087527034L;
+	
 	private String file;
 
 	public JspFileContainer(String file) {
