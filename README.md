@@ -17,7 +17,9 @@ A tag specifies the location which JSP to load. (The argument is given to the ge
 Usage
 -----
 
-<wicket:jsp file="/de/test/jspwicket/TestPage.jsp"></wicket:jsp>
+<pre>
+&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;
+</pre>
  
 !!! This tag must not be defined as empty tag - it has to be opened / closed!!!
 
