@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The WicketServletAndJSPResolver is used to embed JSP content into wicked HTML pages, by
+ * The WicketServletAndJSPResolver is used to embed Servlet and JSP content into wicked HTML pages, by
  * a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used
  * to apply the content, every restrictions of include is applied to the jsp.
  * (No header modifications and so on). To use it you should registered it to
@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * is given to the getRequestDispatcher method of the ServletContext):
  * <code><pre>&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;</pre></code>
  * or
- * <code><pre>&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:jsp&gt;</pre></code>
+ * <code><pre>&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;</pre></code>
  *
  * <b>Links:</b><br>
  * https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+
