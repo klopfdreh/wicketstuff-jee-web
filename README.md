@@ -8,7 +8,7 @@ Setup
 @Override
 protected void init() {
 	super.init();
-	getPageSettings().addComponentResolver(new WicketJSPResolver());
+	getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
 }
 </pre>
 
