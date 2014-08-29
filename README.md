@@ -22,7 +22,7 @@ Usage
 
 or 
 
-&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:jsp&gt;
+&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;
 </pre>
 
 Links
