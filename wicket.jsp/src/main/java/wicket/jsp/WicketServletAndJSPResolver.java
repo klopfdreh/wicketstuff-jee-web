@@ -121,6 +121,9 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	    this.type = type;
 	}
 
+	/**
+	 * Required so that the tag don't have to be opened / closed. It can also be defined as empty tag.
+	 */
 	@Override
 	protected void onComponentTag(final ComponentTag tag) {
 	    tag.setType(XmlTag.TagType.OPEN);
