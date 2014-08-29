@@ -1,6 +1,6 @@
 wicket.jsp
 ==========
-The WicketJSPResolver is used to embed JSP content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used to apply the content, every restrictions of include is applied to the jsp. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
+The WicketServletAndJSPResolver is used to embed Servlet and JSP content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used to apply the content, every restrictions of include is applied to the jsp. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
 
 Setup
 -----
@@ -19,9 +19,11 @@ Usage
 
 <pre>
 &lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;
+
+or 
+
+&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:jsp&gt;
 </pre>
- 
-!!! This tag must not be defined as empty tag - it has to be opened / closed!!!
 
 Links
 ------
