@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The WicketJSPResolver is used to embed JSP content into wicked HTML pages, by
+ * The WicketServletAndJSPResolver is used to embed JSP content into wicked HTML pages, by
  * a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used
  * to apply the content, every restrictions of include is applied to the jsp.
  * (No header modifications and so on). To use it you should registered it to
