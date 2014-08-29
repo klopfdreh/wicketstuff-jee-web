@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRegistration;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupException;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.WicketTag;
+import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.markup.resolver.IComponentResolver;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -33,20 +36,18 @@ import org.slf4j.LoggerFactory;
  * The WicketJSPResolver is used to embed JSP content into wicked HTML pages, by
  * a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used
  * to apply the content, every restrictions of include is applied to the jsp.
- * (No header modifications and so on). To use it you should registered it to the
- * page settings in the init-Method of the Wicket-Application: <code><pre>
+ * (No header modifications and so on). To use it you should registered it to
+ * the page settings in the init-Method of the Wicket-Application: <code><pre>
  * 	{@literal @}Override
  * 	protected void init() {
  * 		super.init();
- * 		getPageSettings().addComponentResolver(new WicketJSPResolver());
+ * 		getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
  * 	}
  * </pre></code> A tag specifies the location which JSP to load. (The argument
  * is given to the getRequestDispatcher method of the ServletContext):
- * <code><pre>
- * 	&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;
- * </pre></code> <b>!!! This tag must not be defined as empty tag - it has to be
- * opened / closed!!!</b><br>
- * <br>
+ * <code><pre>&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;</pre></code>
+ * or
+ * <code><pre>&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:jsp&gt;</pre></code>
  *
  * <b>Links:</b><br>
  * https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+
@@ -59,21 +60,23 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Tobias Soloschenko
  */
-public class WicketJSPResolver implements IComponentResolver {
+public class WicketServletAndJSPResolver implements IComponentResolver {
 
     private static final long serialVersionUID = -5545617085402658472L;
-    
+
     private static final String JSP_ENCODING = "UTF-8";
-    
+
     private static final Logger LOGGER = LoggerFactory
-	    .getLogger(WicketJSPResolver.class);
+	    .getLogger(WicketServletAndJSPResolver.class);
 
     // Registration of the tag identifier
     static {
 	if (LOGGER.isTraceEnabled()) {
-	    LOGGER.trace("Registering" + WicketJSPResolver.class.getName());
+	    LOGGER.trace("Registering"
+		    + WicketServletAndJSPResolver.class.getName());
 	}
 	WicketTagIdentifier.registerWellKnownTagName("jsp");
+	WicketTagIdentifier.registerWellKnownTagName("servlet");
     }
 
     @Override
@@ -87,7 +90,14 @@ public class WicketJSPResolver implements IComponentResolver {
 		    throw new MarkupException(
 			    "Wrong format of <wicket:jsp file='/foo.jsp'>: attribute 'file' is missing");
 		}
-		return new JspFileContainer(file);
+		return new ServletAndJspFileContainer(file, Type.JSP);
+	    } else if ("servlet".equalsIgnoreCase(wtag.getName())) {
+		String path = wtag.getAttributes().getString("path");
+		if (path == null || path.trim().length() == 0) {
+		    throw new MarkupException(
+			    "Wrong format of <wicket:servlet path='/Test'>: attribute 'path' is missing");
+		}
+		return new ServletAndJspFileContainer(path, Type.SERVLET);
 	    }
 	}
 	return null;
@@ -97,15 +107,24 @@ public class WicketJSPResolver implements IComponentResolver {
      * The JSP container which contains the JSP output and renders it to the
      * Wicket HTML page
      */
-    private static class JspFileContainer extends MarkupContainer {
+    private static class ServletAndJspFileContainer extends MarkupContainer {
 
 	private static final long serialVersionUID = -4296125929087527034L;
-	
-	private String file;
 
-	public JspFileContainer(String file) {
-	    super(file);
-	    this.file = file;
+	private String resource;
+
+	private Type type;
+
+	public ServletAndJspFileContainer(String resource, Type type) {
+	    super(resource);
+	    this.resource = resource;
+	    this.type = type;
+	}
+
+	@Override
+	protected void onComponentTag(final ComponentTag tag) {
+	    tag.setType(XmlTag.TagType.OPEN);
+	    super.onComponentTag(tag);
 	}
 
 	/**
@@ -126,11 +145,12 @@ public class WicketJSPResolver implements IComponentResolver {
 		    .getServletContext();
 
 	    // Handle a missing jsp file
-	    handleMissingFile(context);
+	    handleMissingResource(context);
 
 	    try {
 		// include the JSP file by the given request / response
-		context.getRequestDispatcher(file).include(request, response);
+		context.getRequestDispatcher(resource).include(request,
+			response);
 
 		// replace the component tag body with the result of the JSP
 		// output
@@ -153,23 +173,52 @@ public class WicketJSPResolver implements IComponentResolver {
 	 *             if the resource file couldn't be resolved or an exception
 	 *             should be thrown if it is missing
 	 */
-	private void handleMissingFile(ServletContext context)
+	private void handleMissingResource(ServletContext context)
 		throws WicketRuntimeException {
 	    try {
-		if (context.getResource(file) == null) {
-		    if (shouldThrowExceptionForMissingFile()) {
-			throw new WicketRuntimeException(
-				String.format(
-					"Cannot locate resource %s within current context: %s",
-					file, context.getContextPath()));
-		    } else {
-			LOGGER.warn(
-				"File will not be processed. Cannot locate resource {} within current context: {}",
-				file, context.getContextPath());
+		if (type == Type.JSP) {
+		    if (context.getResource(resource) == null) {
+			promptMissingResource(context);
+		    }
+		} else {
+		    boolean found = false;
+		    Iterator<? extends ServletRegistration> servletRegistrationIterator = context
+			    .getServletRegistrations().values().iterator();
+		    while (servletRegistrationIterator.hasNext()) {
+			Iterator<String> mappingsIterator = servletRegistrationIterator
+				.next().getMappings().iterator();
+			while (mappingsIterator.hasNext()) {
+			    String mapping = mappingsIterator.next();
+			    if (resource.equals(mapping)) {
+				found = true;
+			    }
+			}
+		    }
+		    if (!found) {
+			promptMissingResource(context);
 		    }
 		}
 	    } catch (MalformedURLException e) {
 		throw new WicketRuntimeException(e);
+	    }
+	}
+
+	/**
+	 * This method throws an exception if wicket is configured to throw an
+	 * exception for missing resources, or gives a warning message through
+	 * the logging mechanism.
+	 * 
+	 * @param context the context to be printed.
+	 */
+	private void promptMissingResource(ServletContext context) {
+	    if (shouldThrowExceptionForMissingFile()) {
+		throw new WicketRuntimeException(String.format(
+			"Cannot locate resource %s within current context: %s",
+			resource, context.getContextPath()));
+	    } else {
+		LOGGER.warn(
+			"File will not be processed. Cannot locate resource {} within current context: {}",
+			resource, context.getContextPath());
 	    }
 	}
 
@@ -235,6 +284,13 @@ public class WicketJSPResolver implements IComponentResolver {
 	    printWriter.flush();
 	    return byteArrayOutputStream.toString(JSP_ENCODING);
 	}
+    }
+
+    /**
+     * If the markup container is a jsp or a servlet 
+     */
+    private enum Type {
+	JSP, SERVLET
     }
 
 }
