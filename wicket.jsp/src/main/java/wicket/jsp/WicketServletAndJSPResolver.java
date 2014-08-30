@@ -64,7 +64,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 
     private static final long serialVersionUID = -5545617085402658472L;
 
-    private static final String JSP_ENCODING = "UTF-8";
+    private static final String SERVLET_AND_JSP_ENCODING = "UTF-8";
 
     private static final Logger LOGGER = LoggerFactory
 	    .getLogger(WicketServletAndJSPResolver.class);
@@ -285,7 +285,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	    // if something has been written with the writer - we need to flush
 	    // it!
 	    printWriter.flush();
-	    return byteArrayOutputStream.toString(JSP_ENCODING);
+	    return byteArrayOutputStream.toString(SERVLET_AND_JSP_ENCODING);
 	}
     }
 
