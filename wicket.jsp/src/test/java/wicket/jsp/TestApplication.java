@@ -13,6 +13,7 @@ public class TestApplication extends WebApplication{
     @Override
     protected void init() {
 	getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
+	getMarkupSettings().setStripWicketTags(true);
     }
 
 }

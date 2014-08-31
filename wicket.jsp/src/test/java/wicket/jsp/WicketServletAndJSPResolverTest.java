@@ -1,29 +1,40 @@
 package wicket.jsp;
 
 import java.io.File;
+import java.io.InputStream;
 
-import org.apache.wicket.util.tester.WicketTester;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Ignore
 public class WicketServletAndJSPResolverTest {
 
-    private WicketTester wicketTester;
+    private static final Logger LOGGER = LoggerFactory
+	    .getLogger(WicketServletAndJSPResolverTest.class);
+    
+    private static final int PORT = 8089;
+    private static final String HOST = "127.0.0.1";
 
     @Test
     public void testServletsAreResolvedRight() throws Exception {
-	Server server = new Server(8080);
-	WebAppContext context = new WebAppContext();
+	final Server server = new Server(PORT);
+	final WebAppContext context = new WebAppContext();
+	context.setDescriptor(new File(".", "src/main/webapp/WEB-INF/web.xml")
+		.getCanonicalPath());
 	context.setResourceBase(new File(".", "src/main/webapp")
 		.getCanonicalPath());
 	context.setContextPath("/");
 	context.addServlet(TestServlet.class, "/TestServlet");
 	context.setParentLoaderPriority(true);
-
 	server.setHandler(context);
 	server.addLifeCycleListener(new LifeCycle.Listener() {
 
@@ -33,12 +44,29 @@ public class WicketServletAndJSPResolverTest {
 
 	    @Override
 	    public void lifeCycleStarted(LifeCycle arg0) {
-		// This is currently not working - but it should - the
-		// wicketTester is using the ServletContext of Jetty which
-		// provides the TestServlet to the path /TestServlet - the
-		// TestPage.html is accessing the Servlet via path="/TestServlet"
-		wicketTester.startPage(TestPage.class);
-		System.err.println(wicketTester.getLastResponseAsString());
+		InputStream contentIn = null;
+		try {
+		    CloseableHttpClient httpclient = HttpClients
+			    .createDefault();
+		    HttpGet httpGet = new HttpGet("http://"+HOST+":"+PORT+"/");
+		    CloseableHttpResponse response1 = httpclient
+			    .execute(httpGet);
+		    contentIn = response1.getEntity().getContent();
+		    String content = IOUtils.toString(contentIn);
+		    
+		    // This both assert has to be true - that shows wicket.jsp is working
+		    Assert.assertTrue(content.contains("This is a servlet"));
+		    Assert.assertTrue(content.contains("This is a JSP"));
+		} catch (Exception e) {
+		    LOGGER.error("Error while making the get request to check the jsp / servlet integration.");
+		}finally{
+		    IOUtils.closeQuietly(contentIn);
+		}
+		try {
+		    server.stop();
+		} catch (Exception e) {
+		    LOGGER.error("Error while shutting down the server to check the jsp / servlet integration.");
+		}
 	    }
 
 	    @Override
@@ -54,8 +82,6 @@ public class WicketServletAndJSPResolverTest {
 	    }
 
 	});
-	wicketTester = new WicketTester(new TestApplication(),
-		context.getServletContext());
 	server.start();
 	server.join();
     }
