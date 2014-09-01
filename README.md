@@ -25,6 +25,15 @@ or
 &lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;
 </pre>
 
+Taglib
+------
+<pre>
+&lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+
+Tag: url // Parameters: page(required), query(optional) // Example:
+&lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;d&lt;/a&gt;
+</pre>
+
 Links
 ------
 https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
