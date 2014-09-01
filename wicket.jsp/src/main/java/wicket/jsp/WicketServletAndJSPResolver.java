@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRegistration;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,11 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The WicketServletAndJSPResolver is used to embed Servlet and JSP content into wicked HTML pages, by
- * a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used
- * to apply the content, every restrictions of include is applied to the jsp.
- * (No header modifications and so on). To use it you should registered it to
- * the page settings in the init-Method of the Wicket-Application: <code><pre>
+ * The WicketServletAndJSPResolver is used to embed Servlet and JSP content into
+ * wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.16.0.
+ * Because include is used to apply the content, every restrictions of include
+ * is applied to the jsp. (No header modifications and so on). To use it you
+ * should registered it to the page settings in the init-Method of the
+ * Wicket-Application: <code><pre>
  * 	{@literal @}Override
  * 	protected void init() {
  * 		super.init();
@@ -122,7 +121,8 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	}
 
 	/**
-	 * Required so that the tag don't have to be opened / closed. It can also be defined as empty tag.
+	 * Required so that the tag don't have to be opened / closed. It can
+	 * also be defined as empty tag.
 	 */
 	@Override
 	protected void onComponentTag(final ComponentTag tag) {
@@ -181,24 +181,33 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	    try {
 		if (type == Type.JSP) {
 		    if (context.getResource(resource) == null) {
-			promptMissingResource(context);
+			promptMissingResource(context, type);
 		    }
 		} else {
-		    boolean found = false;
-		    Iterator<? extends ServletRegistration> servletRegistrationIterator = context
-			    .getServletRegistrations().values().iterator();
-		    while (servletRegistrationIterator.hasNext()) {
-			Iterator<String> mappingsIterator = servletRegistrationIterator
-				.next().getMappings().iterator();
-			while (mappingsIterator.hasNext()) {
-			    String mapping = mappingsIterator.next();
-			    if (resource.equals(mapping)) {
-				found = true;
-			    }
-			}
-		    }
-		    if (!found) {
-			promptMissingResource(context);
+		    // Servlet Registration is available at servlet api 3.0 so
+		    // we can't use it currently for wicket 6.16.0 because of
+		    // min requirements
+		    // boolean found = false;
+		    // Iterator<? extends ServletRegistration>
+		    // servletRegistrationIterator = context
+		    // .getServletRegistrations().values().iterator();
+		    // while (servletRegistrationIterator.hasNext()) {
+		    // Iterator<String> mappingsIterator =
+		    // servletRegistrationIterator
+		    // .next().getMappings().iterator();
+		    // while (mappingsIterator.hasNext()) {
+		    // String mapping = mappingsIterator.next();
+		    // if (resource.equals(mapping)) {
+		    // found = true;
+		    // }
+		    // }
+		    // }
+		    // if (!found) {
+		    // promptMissingResource(context);
+		    // }
+
+		    if (context.getRequestDispatcher(resource) == null) {
+			promptMissingResource(context, type);
 		    }
 		}
 	    } catch (MalformedURLException e) {
@@ -211,17 +220,21 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	 * exception for missing resources, or gives a warning message through
 	 * the logging mechanism.
 	 * 
-	 * @param context the context to be printed.
+	 * @param context
+	 *            the context to be printed.
+	 * @param type2
 	 */
-	private void promptMissingResource(ServletContext context) {
+	private void promptMissingResource(ServletContext context, Type type) {
 	    if (shouldThrowExceptionForMissingFile()) {
-		throw new WicketRuntimeException(String.format(
-			"Cannot locate resource %s within current context: %s",
-			resource, context.getContextPath()));
+		throw new WicketRuntimeException(
+			String.format(
+				"Cannot locate resource %s of type: %s within current context: %s",
+				resource, type.toString(),
+				context.getContextPath()));
 	    } else {
 		LOGGER.warn(
-			"File will not be processed. Cannot locate resource {} within current context: {}",
-			resource, context.getContextPath());
+			"Resource of type: {} will not be processed. Cannot locate it {} within current context: {}",
+			type.toString(), resource, context.getContextPath());
 	    }
 	}
 
@@ -290,7 +303,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
     }
 
     /**
-     * If the markup container is a jsp or a servlet 
+     * If the markup container is a jsp or a servlet
      */
     private enum Type {
 	JSP, SERVLET
