@@ -38,3 +38,7 @@ Links
 ------
 https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
 http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-td4407174.html
+
+IMPORTANT
+---------
+This project is now part of Wicketstuff Minis: https://github.com/wicketstuff/core/pull/338 - but I'm going to apply the changes in here, too.
