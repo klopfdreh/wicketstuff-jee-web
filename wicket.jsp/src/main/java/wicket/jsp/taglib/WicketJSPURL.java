@@ -6,7 +6,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.Page;
+import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.protocol.http.RequestUtils;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -14,7 +15,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Tag Support to generate a wicket url within a jsp.
+ * Tag Support to generate a wicket url within a jsp. The tag library can be
+ * defined within the <b>&lt;jsp-config&gt;</b> tag in <b>the web.xml</b>. Every
+ * jar which is included in the <b>lib</b> folder of the webapp project will
+ * automatically scanned if a taglib.tld is located in the <b>META-INF</b>
+ * folder. If so the tag library is automatically added.
+ * 
+ * Example of web.xml definition:
+ * <pre>
+ * &lt;taglib&gt;
+ * 	&lt;taglib-uri&gt;uri&lt;/taglib-uri&gt;
+ * 	&lt;taglib-location&gt;/WEB-INF/jsp/mytaglib.tld&lt;taglib-location&gt;
+ * &lt;/taglib&gt;
+ * </pre>
+ * 
+ * Usage:
+ * To use the taglib and this tag you only have to define it in the jsp:
+ * <pre>
+ * &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+ *
+ * Tag: url // Parameters: page(required), query(optional) // Example:
+ * &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
+ * </pre>
  * 
  * @author Tobias Soloschenko
  */
@@ -29,7 +51,6 @@ public class WicketJSPURL extends TagSupport {
 
     private String query = null;
 
-    @SuppressWarnings("unchecked")
     @Override
     public int doStartTag() throws JspException {
 	try {
@@ -38,16 +59,15 @@ public class WicketJSPURL extends TagSupport {
 	    if (query != null) {
 		RequestUtils.decodeParameters(query, pageParameters);
 	    }
+	    Class<Page> resolveClass = WicketObjects.resolveClass(page);
 	    CharSequence urlFor = RequestCycle.get().urlFor(
-		    (Class<? extends WebPage>) Class.forName(page),
+		    resolveClass,
 		    pageParameters);
 	    out.write(urlFor.toString());
 	    out.flush();
 	} catch (IOException e) {
 	    LOGGER.error("Error while generating url for page " + page, e);
-	} catch (ClassNotFoundException e) {
-	    LOGGER.error(
-		    "Error while receiving the class with the name" + page, e);
+	    throw new JspException("Error while generating url for page ",e);
 	}
 	return SKIP_BODY;
     }
