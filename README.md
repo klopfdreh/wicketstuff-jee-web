@@ -40,7 +40,7 @@ Forms (GET / POST)
 POST
 JSP-Fragment:
 &lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="POST"&gt;
-	&lt;input type="hidden" name="hiddenparam" value="wurst"&gt;
+	&lt;input type="hidden" name="hiddenparam" value="testvalue"&gt;
 	&lt;input type="submit" value="Submit"&gt;
 &lt;/form&gt;
 
@@ -52,7 +52,7 @@ public TestPage2(PageParameters parameters){
 GET
 JSP-Fragment:
 &lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="GET"&gt;
-	&lt;input type="hidden" name="hiddenparam" value="wurst"&gt;
+	&lt;input type="hidden" name="hiddenparam" value="testvalue"&gt;
 	&lt;input type="submit" value="Submit"&gt;
 &lt;/form&gt;
 
