@@ -46,7 +46,7 @@ JSP-Fragment:
 
 mypackage.MyPage2:
 public TestPage2(PageParameters parameters){
-	String hiddenparam = RequestCycle.get().getRequest().getPostParameters().getParameterValue(hiddenparam);
+	String hiddenparam = RequestCycle.get().getRequest().getPostParameters().getParameterValue("hiddenparam");
 }
 
 GET
