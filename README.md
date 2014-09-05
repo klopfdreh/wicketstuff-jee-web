@@ -28,7 +28,9 @@ or
 Tags for JSP / JSF
 ------
 <pre>
-&lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicket.jsf/functions"&gt;
 
 Tag: url // Parameters: page(required), query(optional) // Example:
 &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
@@ -36,7 +38,9 @@ Tag: url // Parameters: page(required), query(optional) // Example:
 
 EL-Functions for JSP / JSF
 <pre>
-&lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicket.jsf/functions"&gt;
 
 EL-Function:
 ${wicket:url('mypackage.MyPage')}
