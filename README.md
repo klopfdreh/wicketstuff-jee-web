@@ -34,6 +34,35 @@ Tag: url // Parameters: page(required), query(optional) // Example:
 &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
 </pre>
 
+Forms (GET / POST)
+-----
+<pre>
+POST
+JSP-Fragment:
+&lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="POST"&gt;
+	&lt;input type="hidden" name="hiddenparam" value="wurst"&gt;
+	&lt;input type="submit" value="Submit"&gt;
+&lt;/form&gt;
+
+mypackage.MyPage2:
+public TestPage2(PageParameters parameters){
+	String hiddenparam = RequestCycle.get().getRequest().getPostParameters().getParameterValue(hiddenparam);
+}
+
+GET
+JSP-Fragment:
+&lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="GET"&gt;
+	&lt;input type="hidden" name="hiddenparam" value="wurst"&gt;
+	&lt;input type="submit" value="Submit"&gt;
+&lt;/form&gt;
+
+mypackage.MyPage2:
+public TestPage2(PageParameters parameters){
+	String hiddenparam = parameters.get("hiddenparam").toString()
+}
+</pre>
+
+
 Links
 ------
 https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
