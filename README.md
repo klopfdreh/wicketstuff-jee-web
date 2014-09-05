@@ -33,7 +33,8 @@ JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/j
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicket.jsf/functions"&gt;
 
 Tag: url // Parameters: page(required), query(optional) // Example:
-&lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
+JSP Example: &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
+JSF Example: Tag is the same but should not be used within a href, please refer to the EL-Functions
 </pre>
 
 EL-Functions for JSP / JSF
