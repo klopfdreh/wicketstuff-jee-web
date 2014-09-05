@@ -25,13 +25,17 @@ or
 &lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;
 </pre>
 
-Taglib
+Tags for JSP / JSF
 ------
 <pre>
 &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
 
 Tag: url // Parameters: page(required), query(optional) // Example:
 &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
+
+EL-Function:
+${wicket:url('mypackage.MyPage')}
+${wicket:urlWithQuery('mypackage.MyPage','param1=value1')}
 </pre>
 
 Forms (GET / POST)
