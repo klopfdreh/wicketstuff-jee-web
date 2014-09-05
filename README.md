@@ -23,6 +23,11 @@ Usage
 or 
 
 &lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;
+
+or
+
+&lt;wicket:jsf file="/TestPage.xhtml"&gt;&lt;/wicket:jsp&gt;
+
 </pre>
 
 Tags for JSP / JSF
