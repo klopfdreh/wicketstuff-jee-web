@@ -18,15 +18,15 @@ Usage
 -----
 
 <pre>
-&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"&gt;&lt;/wicket:jsp&gt;
+&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"/&gt;
 
 or 
 
-&lt;wicket:servlet path="/de/test/jspwicket/Servlet"&gt;&lt;/wicket:servlet&gt;
+&lt;wicket:servlet path="/de/test/jspwicket/Servlet/"&gt;
 
 or
 
-&lt;wicket:jsf file="/TestPage.xhtml"&gt;&lt;/wicket:jsp&gt;
+&lt;wicket:jsf file="/TestPage.xhtml"/&gt;
 
 </pre>
 
