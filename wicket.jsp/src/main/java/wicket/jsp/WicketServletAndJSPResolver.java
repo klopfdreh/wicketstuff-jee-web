@@ -75,6 +75,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 		    + WicketServletAndJSPResolver.class.getName());
 	}
 	WicketTagIdentifier.registerWellKnownTagName("jsp");
+	WicketTagIdentifier.registerWellKnownTagName("jsf");
 	WicketTagIdentifier.registerWellKnownTagName("servlet");
     }
 
@@ -90,6 +91,13 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 			    "Wrong format of <wicket:jsp file='/foo.jsp'>: attribute 'file' is missing");
 		}
 		return new ServletAndJspFileContainer(file, Type.JSP);
+	    } else if ("jsf".equalsIgnoreCase(wtag.getName())) {
+		String file = wtag.getAttributes().getString("file");
+		if (file == null || file.trim().length() == 0) {
+		    throw new MarkupException(
+			    "Wrong format of <wicket:jsf file='/foo.xhtml'>: attribute 'file' is missing");
+		}
+		return new ServletAndJspFileContainer(file, Type.JSF);
 	    } else if ("servlet".equalsIgnoreCase(wtag.getName())) {
 		String path = wtag.getAttributes().getString("path");
 		if (path == null || path.trim().length() == 0) {
@@ -179,7 +187,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
 	private void handleMissingResource(ServletContext context)
 		throws WicketRuntimeException {
 	    try {
-		if (type == Type.JSP) {
+		if (type == Type.JSP || type == Type.JSF) {
 		    if (context.getResource(resource) == null) {
 			promptMissingResource(context, type);
 		    }
@@ -306,7 +314,7 @@ public class WicketServletAndJSPResolver implements IComponentResolver {
      * If the markup container is a jsp or a servlet
      */
     private enum Type {
-	JSP, SERVLET
+	JSP, JSF, SERVLET
     }
 
 }
