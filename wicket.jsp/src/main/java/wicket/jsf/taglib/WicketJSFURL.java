@@ -61,20 +61,23 @@ public final class WicketJSFURL extends TagHandler {
 	    RequestUtils.decodeParameters(query, pageParameters);
 	}
 	Class<Page> resolveClass = WicketObjects.resolveClass(page);
-	final CharSequence urlFor = RequestCycle.get().urlFor(resolveClass,
-		pageParameters);
+	RequestCycle requestCycle = RequestCycle.get();
+	if (requestCycle != null) {
+	    final CharSequence urlFor = requestCycle.urlFor(resolveClass,
+		    pageParameters);
 
-	UIComponentBase c = new UIComponentBase() {
-	    public void encodeEnd(FacesContext ctx) throws IOException {
-		ResponseWriter w = ctx.getResponseWriter();
-		w.write(urlFor.toString());
-	    }
+	    UIComponentBase c = new UIComponentBase() {
+		public void encodeEnd(FacesContext ctx) throws IOException {
+		    ResponseWriter w = ctx.getResponseWriter();
+		    w.write(urlFor.toString());
+		}
 
-	    // abstract method in base, must override
-	    public String getFamily() {
-		return "wicket.jsf.taglib";
-	    }
-	};
-	parent.getChildren().add(c);
+		// abstract method in base, must override
+		public String getFamily() {
+		    return "wicket.jsf.taglib";
+		}
+	    };
+	    parent.getChildren().add(c);
+	}
     }
 }
