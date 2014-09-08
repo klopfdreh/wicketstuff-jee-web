@@ -97,8 +97,8 @@ IMPORTANT
 - Wicketstuff Minis 6.18.0 / 7.0.0-M4 contains EL support for JSP / JSF - a better servlet mapping check and examples.
 <pre>
 &lt;dependency&gt;
-	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-	&lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
-	&lt;version&gt;/version/&lt;/version&gt;
+   &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+   &lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
+   &lt;version&gt;/version/&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
