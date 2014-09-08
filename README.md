@@ -93,5 +93,12 @@ IMPORTANT
 ---------
 - I attached an example project which shows that it is possible to include JSF into the wicket page.
 - This project is now part of Wicketstuff Minis: https://github.com/wicketstuff/core/pull/338 - but I'm going to apply the changes in here, too. 
-- Wicketstuff 6.17.0 / 7.0.0-M3 contains only basic tag support for JSP.
-- Wicketstuff 6.18.0 / 7.0.0-M4 contains EL support for JSP / JSF - a better servlet mapping check and examples.
+- Wicketstuff Minis 6.17.0 / 7.0.0-M3 contains only basic tag support for JSP.
+- Wicketstuff Minis 6.18.0 / 7.0.0-M4 contains EL support for JSP / JSF - a better servlet mapping check and examples.
+<pre>
+&lt;dependency&gt;
+	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+	&lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
+	&lt;version&gt;/version/&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
