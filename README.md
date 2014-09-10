@@ -5,6 +5,7 @@ The WicketServletAndJSPResolver is used to embed Servlet and JSP content into wi
 Setup
 -----
 <pre>
+WebApplication:
 @Override
 protected void init() {
 	super.init();
@@ -31,7 +32,7 @@ or
 </pre>
 
 Tags for JSP / JSF
-------
+------------------
 <pre>
 JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
 JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
@@ -43,6 +44,7 @@ JSF Example: Tag is the same but should not be used within a href, please refer 
 </pre>
 
 EL-Functions for JSP / JSF
+--------------------------
 <pre>
 JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
 JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
@@ -54,7 +56,7 @@ ${wicket:urlWithQuery('mypackage.MyPage','param1=value1')}
 </pre>
 
 Forms (GET / POST)
------
+------------------
 <pre>
 POST
 JSP-Fragment:
@@ -82,8 +84,34 @@ public TestPage2(PageParameters parameters){
 }
 </pre>
 
+Ajax-Support:
+-------------
+<pre>
+WebApplication:
+    @Override
+    protected void init() {
+	super.init();
+	getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
+	WicketServletAndJSPGlobalAjaxHandler.configure(this);
+    }
 
-Links
+Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
+    @Override
+    public void onEvent(IEvent<?> event) {
+	WicketServletAndJSPGlobalAjaxEvent castedEvent = 
+	WicketServletAndJSPGlobalAjaxEvent.getCastedEvent(event);
+	if (castedEvent!= null) {
+	    AjaxRequestTarget ajaxRequestTarget = castedEvent.getAjaxRequestTarget();
+	    castedEvent.getPageParameters().get("param");
+	}
+    }
+
+In JSP:
+&lt;a href="#" onClick="${wicket:ajaxCallbackWithQuery('param=value')}"&gt;Update&lt;/a&gt;
+&lt;a href="#" onClick="${wicket:ajaxCallback()}"&gt;Update&lt;/a&gt;
+</pre>
+
+Links:
 ------
 https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
 http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-td4407174.html
