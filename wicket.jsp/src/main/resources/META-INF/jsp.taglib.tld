@@ -19,6 +19,18 @@
         <name>urlWithQuery</name>
         <function-class>wicket.jsp.el.WicketELURL</function-class>
         <function-signature>java.lang.String urlWithQuery(java.lang.String, java.lang.String)</function-signature>
+    </function>
+    
+	<function>
+        <name>ajaxCallbackWithQuery</name>
+        <function-class>wicket.jsp.el.WicketELURL</function-class>
+        <function-signature>java.lang.String ajaxCallbackWithQuery(java.lang.String)</function-signature>
+    </function>
+    
+	<function>
+        <name>ajaxCallback</name>
+        <function-class>wicket.jsp.el.WicketELURL</function-class>
+        <function-signature>java.lang.String ajaxCallback()</function-signature>
     </function>    
     
 	<tag>

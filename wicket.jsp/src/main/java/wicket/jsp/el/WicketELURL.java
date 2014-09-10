@@ -3,16 +3,23 @@ package wicket.jsp.el;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.protocol.http.RequestUtils;
+import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import wicket.ajax.WicketServletAndJSPGlobalAjaxHandler;
+
 /**
- * This class is used for JSP and JSF context to render a URLs with EL expressions:
+ * This class is used for JSP and JSF context to render a URLs with EL
+ * expressions:
+ * 
  * <pre>
  * ${wicket:url('mypackage.MyPage')}
  * and 
  * ${wicket:urlWithQuery('mypackage.MyPage','param1=value1&param2=value2')}
  * </pre>
+ * 
+ * @author Tobias Soloschenko
  */
 public class WicketELURL {
 
@@ -49,5 +56,42 @@ public class WicketELURL {
 	final CharSequence urlFor = RequestCycle.get().urlFor(resolveClass,
 		pageParameters);
 	return urlFor.toString();
+    }
+
+    /**
+     * Creates a ajax callback function that processes a request to the current
+     * rendered page
+     * 
+     * @return the callback function
+     */
+    public static String ajaxCallback() {
+	PageParameters pageParameters = new PageParameters();
+	pageParameters.add("pageId",
+		PageRequestHandlerTracker.getLastHandler(RequestCycle.get())
+			.getPage().getPageId());
+	final CharSequence urlFor = RequestCycle.get().urlFor(
+		new WicketServletAndJSPGlobalAjaxHandler(), pageParameters);
+	return "Wicket.Ajax.get({'u':'" + urlFor + "'});";
+    }
+
+    /**
+     * Creates a ajax callback function that processes a request to the current
+     * rendered page
+     * 
+     * @param query
+     *            the query to be send to the function
+     * @return the callback function
+     */
+    public static String ajaxCallbackWithQuery(String query) {
+	PageParameters pageParameters = new PageParameters();
+	if (query != null) {
+	    RequestUtils.decodeParameters(query, pageParameters);
+	}
+	pageParameters.add("pageId",
+		PageRequestHandlerTracker.getLastHandler(RequestCycle.get())
+			.getPage().getPageId());
+	final CharSequence urlFor = RequestCycle.get().urlFor(
+		new WicketServletAndJSPGlobalAjaxHandler(), pageParameters);
+	return "Wicket.Ajax.get({'u':'" + urlFor + "'});";
     }
 }
