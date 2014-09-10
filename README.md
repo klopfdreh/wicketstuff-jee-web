@@ -109,6 +109,19 @@ Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
 In JSP:
 &lt;a href="#" onClick="${wicket:ajaxCallbackWithQuery('param=value')}"&gt;Update&lt;/a&gt;
 &lt;a href="#" onClick="${wicket:ajaxCallback()}"&gt;Update&lt;/a&gt;
+
+In JSP with Javascript:
+
+&lt;script type="text/javascript"&gt;
+	function processCallBack(){
+		var url = '${wicket:ajaxCallbackUrl()}';
+		var urlWithPreRenderedArgs = 
+		'${wicket:ajaxCallbackUrlWithQuery("param=value")}';
+		Wicket.Ajax.Get({'u':url+"&param=value"});
+	}
+	processCallBack();
+&lt;/script&gt;
+
 </pre>
 
 Links
