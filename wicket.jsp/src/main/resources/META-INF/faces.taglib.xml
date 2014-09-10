@@ -14,16 +14,28 @@
     </function>
     
 	<function>
+        <function-name>ajaxCallback</function-name>
+        <function-class>wicket.jsp.el.WicketELURL</function-class>
+        <function-signature>java.lang.String ajaxCallback()</function-signature>
+    </function>    
+	
+	<function>
         <function-name>ajaxCallbackWithQuery</function-name>
         <function-class>wicket.jsp.el.WicketELURL</function-class>
         <function-signature>java.lang.String ajaxCallbackWithQuery(java.lang.String)</function-signature>
     </function>
     
-	<function>
-        <function-name>ajaxCallback</function-name>
+   	<function>
+        <function-name>ajaxCallbackUrlWithQuery</function-name>
         <function-class>wicket.jsp.el.WicketELURL</function-class>
-        <function-signature>java.lang.String ajaxCallback()</function-signature>
-    </function>      
+        <function-signature>java.lang.String ajaxCallbackUrlWithQuery(java.lang.String)</function-signature>
+    </function>
+    
+	<function>
+        <function-name>ajaxCallbackUrl</function-name>
+        <function-class>wicket.jsp.el.WicketELURL</function-class>
+        <function-signature>java.lang.String ajaxCallbackUrl()</function-signature>
+    </function>
 
     <tag>
 		<tag-name>url</tag-name>
