@@ -15,8 +15,10 @@ import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.request.IRequestParameters;
 import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
@@ -64,7 +66,9 @@ public class WicketServletAndJSPGlobalAjaxHandler extends ResourceReference {
 	    @Override
 	    public void respond(Attributes attributes) {
 		try {
-		    int pageId = attributes.getParameters().get("pageId")
+		    PageParameters parameters = attributes.getParameters();
+		    
+		    int pageId = parameters.get("pageId")
 			    .toInt();
 		    Page page = (Page) WebSession.get().getPageManager()
 			    .getPage(pageId);
@@ -76,8 +80,7 @@ public class WicketServletAndJSPGlobalAjaxHandler extends ResourceReference {
 			    page,
 			    Broadcast.BREADTH,
 			    new WicketServletAndJSPGlobalAjaxEvent(
-				    newAjaxRequestTarget, attributes
-					    .getParameters()));
+				    newAjaxRequestTarget,parameters,RequestCycle.get().getRequest().getPostParameters()));
 		} catch (Exception e) {
 		    LOGGER.error("Error while processing the ajax request", e);
 		}

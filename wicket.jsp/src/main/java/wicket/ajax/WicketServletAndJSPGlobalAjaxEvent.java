@@ -2,6 +2,7 @@ package wicket.ajax;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.event.IEvent;
+import org.apache.wicket.request.IRequestParameters;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
@@ -17,10 +18,14 @@ public class WicketServletAndJSPGlobalAjaxEvent {
 
     private PageParameters pageParameters;
 
+    private IRequestParameters postParameters;
+
     public WicketServletAndJSPGlobalAjaxEvent(
-	    AjaxRequestTarget ajaxRequestTarget, PageParameters pageParameters) {
+	    AjaxRequestTarget ajaxRequestTarget, PageParameters pageParameters,
+	    IRequestParameters postParameters) {
 	this.ajaxRequestTarget = ajaxRequestTarget;
 	this.pageParameters = pageParameters;
+	this.postParameters = postParameters;
     }
 
     /**
@@ -52,13 +57,32 @@ public class WicketServletAndJSPGlobalAjaxEvent {
     }
 
     /**
-     * Sets the parameter received by the ajax call
+     * Sets the page parameter received by the ajax call
      * 
      * @param pageParameters
      *            the page parameters
      */
     public void setPageParameters(PageParameters pageParameters) {
 	this.pageParameters = pageParameters;
+    }
+
+    /**
+     * Gets the post parameters received by the ajax call
+     * 
+     * @return the post parameters
+     */
+    public IRequestParameters getPostParameters() {
+	return postParameters;
+    }
+
+    /**
+     * Sets the post parameters during the request call
+     * 
+     * @param postParameters
+     *            the post parameters
+     */
+    public void setPostParameters(IRequestParameters postParameters) {
+	this.postParameters = postParameters;
     }
 
     /**
