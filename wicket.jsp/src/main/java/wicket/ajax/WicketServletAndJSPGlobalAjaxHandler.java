@@ -15,7 +15,6 @@ import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebSession;
-import org.apache.wicket.request.IRequestParameters;
 import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -35,8 +34,9 @@ import org.slf4j.LoggerFactory;
  * <b>WATCH OUT - The WebPage has to be configured with setStatelassHint(false);
  * !!!!
  * 
- * @see wicket.jsp.el.WicketELURL.ajaxCallbackWithQuery(String)
- * @see wicket.jsp.el.WicketELURL.ajaxCallback()
+ * The ajax functions are in the WicketELURL class beginning with ajax...
+ * 
+ * @see wicket.jsp.el.WicketELURL
  * 
  * @author Tobias Soloschenko
  *
