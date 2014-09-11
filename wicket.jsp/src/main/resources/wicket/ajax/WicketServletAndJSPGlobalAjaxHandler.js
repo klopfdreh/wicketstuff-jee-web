@@ -7,7 +7,7 @@
  * var url = '${wicket:ajaxCallbackUrl()}';
  * Wicket.Ajax.ApplyParameter(url,{param:value});
  */
-Wicket.Ajax.ApplyParameters = function(url,options){
+Wicket.Ajax.ApplyGetParameters = function(url,options){
 	return url+"&"+$.param(options);
 }
 
