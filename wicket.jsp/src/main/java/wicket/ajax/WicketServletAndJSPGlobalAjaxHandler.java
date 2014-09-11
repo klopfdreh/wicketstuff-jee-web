@@ -1,24 +1,37 @@
 package wicket.ajax;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.WicketAjaxJQueryResourceReference;
+import org.apache.wicket.ajax.WicketEventJQueryResourceReference;
 import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.markup.head.HeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.resource.IResource;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.resource.JQueryResourceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * This class is used to configure a global ajax event hook for the embedded
  * tags (servlet,jsp,jsf). The tag libs can be used to generate a callback
- * function to send an ajax request to the current rendered page.<br><br>
+ * function to send an ajax request to the current rendered page.<br>
+ * <br>
  * 
- * <b>WATCH OUT - The WebPage has to be configured with setStatelassHint(false); !!!!
+ * <b>WATCH OUT - The WebPage has to be configured with setStatelassHint(false);
+ * !!!!
  * 
  * @see wicket.jsp.el.WicketELURL.ajaxCallbackWithQuery(String)
  * @see wicket.jsp.el.WicketELURL.ajaxCallback()
@@ -84,6 +97,37 @@ public class WicketServletAndJSPGlobalAjaxHandler extends ResourceReference {
 	application.mountResource("/"
 		+ WicketServletAndJSPGlobalAjaxHandler.NAME,
 		new WicketServletAndJSPGlobalAjaxHandler());
-    }
+	application.getHeaderContributorListenerCollection().add(
+		new IHeaderContributor() {
 
+		    private static final long serialVersionUID = 1644041155625458328L;
+
+		    @Override
+		    public void renderHead(IHeaderResponse response) {
+			JavaScriptResourceReference forReference = new JavaScriptResourceReference(
+				WicketServletAndJSPGlobalAjaxHandler.class,
+				"WicketServletAndJSPGlobalAjaxHandler.js") {
+			    
+			    private static final long serialVersionUID = -3649384632770480975L;
+
+			    @Override
+			    public Iterable<? extends HeaderItem> getDependencies() {
+				List<HeaderItem> dependencies = new ArrayList<HeaderItem>();
+				dependencies.add(JavaScriptHeaderItem
+					.forReference(JQueryResourceReference
+						.get()));
+				dependencies.add(JavaScriptHeaderItem
+					.forReference(WicketEventJQueryResourceReference
+						.get()));
+				dependencies.add(JavaScriptHeaderItem
+					.forReference(WicketAjaxJQueryResourceReference
+						.get()));
+				return dependencies;
+			    }
+			};
+			response.render(JavaScriptHeaderItem
+				.forReference(forReference));
+		    }
+		});
+    }
 }
