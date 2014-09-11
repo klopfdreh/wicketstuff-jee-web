@@ -102,7 +102,12 @@ Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
 	WicketServletAndJSPGlobalAjaxEvent.getCastedEvent(event);
 	if (castedEvent!= null) {
 	    AjaxRequestTarget ajaxRequestTarget = castedEvent.getAjaxRequestTarget();
+	    
+	    // Get-Request
 	    castedEvent.getPageParameters().get("param");
+	    
+	    // Post-Request
+	    castedEvent.getPostParameters().getParameterValue("param")
 	}
     }
 
@@ -118,8 +123,12 @@ In JSP with Javascript:
 		var urlWithPreRenderedArgs = 
 		'${wicket:ajaxCallbackUrlWithQuery("param=value")}';
 		
+		// Get-Request
 		var url = Wicket.Ajax.ApplyGetParameters(url,{"param":"value"})
 		Wicket.Ajax.WrapGet(url);
+		
+		// Post-Request
+		Wicket.Ajax.wrappost(url,{"param":"value"});
 	}
 	processCallBack();
 &lt;/script&gt;
