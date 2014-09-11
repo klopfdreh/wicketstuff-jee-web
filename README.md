@@ -118,7 +118,7 @@ In JSP with Javascript:
 		var urlWithPreRenderedArgs = 
 		'${wicket:ajaxCallbackUrlWithQuery("param=value")}';
 		
-		var url = Wicket.Ajax.ApplyParameters(url,{"param":"value"})
+		var url = Wicket.Ajax.ApplyGetParameters(url,{"param":"value"})
 		Wicket.Ajax.WrapGet(url);
 	}
 	processCallBack();
