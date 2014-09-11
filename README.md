@@ -92,14 +92,14 @@ WebApplication:
     protected void init() {
 	super.init();
 		getPageSettings().addComponentResolver(new JEEWebGlobalAjaxHandler());
-		WicketServletAndJSPGlobalAjaxHandler.configure(this);
+		JEEWebGlobalAjaxHandler.configure(this);
     }
 
 Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
     @Override
     public void onEvent(IEvent<?> event) {
-		WicketServletAndJSPGlobalAjaxEvent castedEvent = 
-		WicketServletAndJSPGlobalAjaxEvent.getCastedEvent(event);
+		JEEWebGlobalAjaxEvent castedEvent = 
+		JEEWebGlobalAjaxEvent.getCastedEvent(event);
 		if (castedEvent!= null) {
 			AjaxRequestTarget ajaxRequestTarget = castedEvent.getAjaxRequestTarget();
 			
