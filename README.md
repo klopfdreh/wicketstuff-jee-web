@@ -124,8 +124,8 @@ In JSP with Javascript:
 		'${wicket:ajaxCallbackUrlWithQuery("param=value")}';
 		
 		// Get-Request
-		var url = Wicket.Ajax.ApplyGetParameters(url,{"param":"value"})
-		Wicket.Ajax.WrapGet(url);
+		var url = Wicket.Ajax.applyGetParameters(url,{"param":"value"})
+		Wicket.Ajax.wrapget(url);
 		
 		// Post-Request
 		Wicket.Ajax.wrappost(url,{"param":"value"});
