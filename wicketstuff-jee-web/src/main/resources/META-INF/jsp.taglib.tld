@@ -22,15 +22,15 @@
     </function>
     
 	<function>
-        <name>ajaxCallback</name>
+        <name>ajaxGet</name>
         <function-class>org.wicketstuff.jeeweb.el.ELFunctions</function-class>
-        <function-signature>java.lang.String ajaxCallback()</function-signature>
+        <function-signature>java.lang.String ajaxGet()</function-signature>
     </function>    
 	
 	<function>
-        <name>ajaxCallbackWithQuery</name>
+        <name>ajaxGetWithQuery</name>
         <function-class>org.wicketstuff.jeeweb.el.ELFunctions</function-class>
-        <function-signature>java.lang.String ajaxCallbackWithQuery(java.lang.String)</function-signature>
+        <function-signature>java.lang.String ajaxGetWithQuery(java.lang.String)</function-signature>
     </function>
     
    	<function>
