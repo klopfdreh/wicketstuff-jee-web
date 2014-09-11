@@ -112,8 +112,8 @@ Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
     }
 
 In JSP:
-&lt;a href="#" onClick="${wicket:ajaxCallbackWithQuery('param=value')}"&gt;Update&lt;/a&gt;
-&lt;a href="#" onClick="${wicket:ajaxCallback()}"&gt;Update&lt;/a&gt;
+&lt;a href="#" onClick="${wicket:ajaxGetWithQuery('param=value')}"&gt;Update&lt;/a&gt;
+&lt;a href="#" onClick="${wicket:ajaxGet()}"&gt;Update&lt;/a&gt;
 
 In JSP with Javascript:
 

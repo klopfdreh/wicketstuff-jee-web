@@ -100,8 +100,8 @@ public class ELFunctions {
      * 
      * @return the callback function
      */
-    public static String ajaxCallback() {
-	return "Wicket.Ajax.get({'u':'" + ajaxCallback() + "'});";
+    public static String ajaxGet() {
+	return "Wicket.Ajax.get({'u':'" + ajaxCallbackUrl()+ "'});";
     }
 
     /**
@@ -112,7 +112,7 @@ public class ELFunctions {
      *            the query to be send to the function
      * @return the callback function
      */
-    public static String ajaxCallbackWithQuery(String query) {
+    public static String ajaxGetWithQuery(String query) {
 	return "Wicket.Ajax.get({'u':'" + ajaxCallbackUrlWithQuery(query)
 		+ "'});";
     }
