@@ -1,4 +1,4 @@
-wicket.jsp
+wicketstuff-jee-web (previously wicket.jsp)
 ==========
 The JEEWebResolver is used to embed Servlet, JSP abd JSF content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.x / 7.x. Because include is used to apply the content, every restrictions of include is applied to the embed content. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
 
