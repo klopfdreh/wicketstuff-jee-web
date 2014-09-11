@@ -7,7 +7,6 @@
 	<packaging>war</packaging>
 	<name>JEE Web Integration Examples</name>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
