@@ -1,6 +1,6 @@
 wicket.jsp
 ==========
-The WicketServletAndJSPResolver is used to embed Servlet and JSP content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.16.0. Because include is used to apply the content, every restrictions of include is applied to the jsp. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
+The JEEWebResolver is used to embed Servlet, JSP abd JSF content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.x / 7.x. Because include is used to apply the content, every restrictions of include is applied to the embed content. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
 
 Setup
 -----
@@ -9,21 +9,21 @@ WebApplication:
 @Override
 protected void init() {
 	super.init();
-	getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
+	getPageSettings().addComponentResolver(new JEEWebResolver());
 }
 </pre>
 
-A tag specifies the location which JSP to load. (The argument is given to the getRequestDispatcher method of the ServletContext):
+A tag specifies the location which embed content to load. (The argument is given to the getRequestDispatcher method of the ServletContext):
 
 Usage
 -----
 
 <pre>
-&lt;wicket:jsp file="/de/test/jspwicket/TestPage.jsp"/&gt;
+&lt;wicket:jsp file="/de/test/jsp/TestPage.jsp"/&gt;
 
 or 
 
-&lt;wicket:servlet path="/de/test/jspwicket/Servlet/"&gt;
+&lt;wicket:servlet path="/de/test/servlet/Servlet/"&gt;
 
 or
 
@@ -34,9 +34,9 @@ or
 Tags for JSP / JSF
 ------------------
 <pre>
-JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSP: &lt;%@ taglib prefix="wicket" uri="http://wicketstuff-jee-web.org/functions/jsp" %&gt;
 JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicket.jsf/functions"&gt;
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicketstuff-jee-web.org/functions/jsf"&gt;
 
 Tag: url // Parameters: page(required), query(optional) // Example:
 JSP Example: &lt;a href="&lt;wicket:url page="mypage.MyTestPage" query="param1=value1&param2=value2"/&gt;"&gt;LINK&lt;/a&gt;
@@ -46,9 +46,9 @@ JSF Example: Tag is the same but should not be used within a href, please refer 
 EL-Functions for JSP / JSF
 --------------------------
 <pre>
-JSP: &lt;%@ taglib prefix="wicket" uri="http://wicket.jsp/functions" %&gt;
+JSP: &lt;%@ taglib prefix="wicket" uri="http://wicketstuff-jee-web.org/functions/jsp" %&gt;
 JSF: &lt;div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicket.jsf/functions"&gt;
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:wicket="http://wicketstuff-jee-web.org/functions/jsf"&gt;
 
 EL-Function:
 ${wicket:url('mypackage.MyPage')}
@@ -91,24 +91,24 @@ WebApplication:
     @Override
     protected void init() {
 	super.init();
-	getPageSettings().addComponentResolver(new WicketServletAndJSPResolver());
-	WicketServletAndJSPGlobalAjaxHandler.configure(this);
+		getPageSettings().addComponentResolver(new JEEWebGlobalAjaxHandler());
+		WicketServletAndJSPGlobalAjaxHandler.configure(this);
     }
 
 Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
     @Override
     public void onEvent(IEvent<?> event) {
-	WicketServletAndJSPGlobalAjaxEvent castedEvent = 
-	WicketServletAndJSPGlobalAjaxEvent.getCastedEvent(event);
-	if (castedEvent!= null) {
-	    AjaxRequestTarget ajaxRequestTarget = castedEvent.getAjaxRequestTarget();
-	    
-	    // Get-Request
-	    castedEvent.getPageParameters().get("param");
-	    
-	    // Post-Request
-	    castedEvent.getPostParameters().getParameterValue("param")
-	}
+		WicketServletAndJSPGlobalAjaxEvent castedEvent = 
+		WicketServletAndJSPGlobalAjaxEvent.getCastedEvent(event);
+		if (castedEvent!= null) {
+			AjaxRequestTarget ajaxRequestTarget = castedEvent.getAjaxRequestTarget();
+			
+			// Get-Request
+			castedEvent.getPageParameters().get("param");
+			
+			// Post-Request
+			castedEvent.getPostParameters().getParameterValue("param")
+		}
     }
 
 In JSP:
@@ -144,20 +144,17 @@ http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-t
 IMPORTANT
 ---------
 - I attached an example project which shows that it is possible to include JSF into the wicket page.
-- This project is now part of Wicketstuff Minis: https://github.com/wicketstuff/core/pull/338 - but I'm going to apply the changes in here, too. 
-- Wicketstuff Minis 6.17.0 / 7.0.0-M3 contains only basic tag support for JSP.
-- Wicketstuff Minis 6.18.0 / 7.0.0-M4 contains EL support for JSP / JSF - a better servlet mapping check and examples.
+- As of Wicketstuff 6.17.0 / 7.0.0-M3 it is part of Wicketstuff-Minis with only basic tag support for JSP. (https://github.com/wicketstuff/core/pull/338)
 <pre>
 &lt;dependency&gt;
- &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
- &lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
- &lt;version&gt;/version/&lt;/version&gt;
+	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+	&lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
+	&lt;version&gt;/version/&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;dependency&gt;
- &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
- &lt;artifactId&gt;wicketstuff-minis-examples&lt;/artifactId&gt;
- &lt;version&gt;/version/&lt;/version&gt;
+	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+	&lt;artifactId&gt;wicketstuff-minis-examples&lt;/artifactId&gt;
+	&lt;version&gt;/version/&lt;/version&gt;
 &lt;/dependency&gt;
-
 </pre>
 
