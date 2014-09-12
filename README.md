@@ -143,18 +143,5 @@ http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-t
 
 IMPORTANT
 ---------
-- I attached an example project which shows that it is possible to include JSF into the wicket page.
-- As of Wicketstuff 6.17.0 / 7.0.0-M3 it is part of Wicketstuff-Minis with only basic tag support for JSP. (https://github.com/wicketstuff/core/pull/338)
-<pre>
-&lt;dependency&gt;
-	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-	&lt;artifactId&gt;wicketstuff-minis&lt;/artifactId&gt;
-	&lt;version&gt;/version/&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-	&lt;artifactId&gt;wicketstuff-minis-examples&lt;/artifactId&gt;
-	&lt;version&gt;/version/&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
+- The project got its own subproject in wicketstuff called wicketstuff-jee-web
 
