@@ -1,9 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.wicketstuff</groupId>
+	<parent>
+		<groupId>org.wicketstuff</groupId>
+		<artifactId>jee-web-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<artifactId>wicketstuff-jee-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JEE Web Integration</name>
 
@@ -16,15 +19,18 @@
 	</developers>
 
 	<properties>
-		<slf4j.version>1.7.7</slf4j.version>
+		<java.version>1.6</java.version>
+	
 		<wicket.version>6.16.0</wicket.version>
 		<servlet.api.version>2.5</servlet.api.version>
 		<servlet.jsp.api.version>2.2</servlet.jsp.api.version>
 		<faces.api.version>2.2.8-01</faces.api.version>
+		<slf4j.version>1.7.7</slf4j.version>
 		<junit.version>4.11</junit.version>
 	</properties>
 
 	<dependencies>
+		<!-- provided dependencies for framework -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
@@ -83,8 +89,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
