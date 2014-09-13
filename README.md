@@ -4,14 +4,14 @@ The JEEWebResolver is used to embed Servlet, JSP abd JSF content into wicked HTM
 
 Setup
 -----
-<pre>
 WebApplication:
+```java
 @Override
 protected void init() {
 	super.init();
 	getPageSettings().addComponentResolver(new JEEWebResolver());
 }
-</pre>
+```
 
 A tag specifies the location which embed content to load. (The argument is given to the getRequestDispatcher method of the ServletContext):
 
@@ -57,45 +57,53 @@ ${wicket:urlWithQuery('mypackage.MyPage','param1=value1')}
 
 Forms (GET / POST)
 ------------------
-<pre>
-POST
+POST:
 JSP-Fragment:
+<pre>
 &lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="POST"&gt;
 	&lt;input type="hidden" name="hiddenparam" value="testvalue"&gt;
 	&lt;input type="submit" value="Submit"&gt;
 &lt;/form&gt;
+</pre>
 
 mypackage.MyPage2:
+```java
 public TestPage2(PageParameters parameters){
 	String hiddenparam = RequestCycle.get().getRequest()
 	.getPostParameters().getParameterValue("hiddenparam");
 }
+```
 
-GET
+GET:
 JSP-Fragment:
+<pre>
 &lt;form action="&lt;wicket:url page="mypackage.MyPage2"/&gt;" method="GET"&gt;
 	&lt;input type="hidden" name="hiddenparam" value="testvalue"&gt;
 	&lt;input type="submit" value="Submit"&gt;
 &lt;/form&gt;
+</pre>
 
 mypackage.MyPage2:
+```java
 public TestPage2(PageParameters parameters){
-	String hiddenparam = parameters.get("hiddenparam").toString()
+	String hiddenparam = parameters.get("hiddenparam").toString();
 }
-</pre>
+```
 
 Ajax-Support
 ------------
-<pre>
+
 WebApplication:
+```java
     @Override
     protected void init() {
 	super.init();
 		getPageSettings().addComponentResolver(new JEEWebGlobalAjaxHandler());
 		JEEWebGlobalAjaxHandler.configure(this);
     }
-
-Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
+```
+WebPage (IMPORTANT: In constructor use setStatelessHint(false); !!!):
+```java
     @Override
     public void onEvent(IEvent<?> event) {
 		JEEWebGlobalAjaxEvent castedEvent = 
@@ -110,13 +118,15 @@ Page (IMPORTANT: In constructor use setStatelessHint(false); !!!):
 			castedEvent.getPostParameters().getParameterValue("param")
 		}
     }
-
+```
 In JSP:
+<pre>
 &lt;a href="#" onClick="${wicket:ajaxGetWithQuery('param=value')}"&gt;Update&lt;/a&gt;
 &lt;a href="#" onClick="${wicket:ajaxGet()}"&gt;Update&lt;/a&gt;
+</pre>
 
 In JSP with Javascript:
-
+<pre>
 &lt;script type="text/javascript"&gt;
 	function processCallBack(){
 		var url = '${wicket:ajaxCallbackUrl()}';
@@ -132,7 +142,6 @@ In JSP with Javascript:
 	}
 	processCallBack();
 &lt;/script&gt;
-
 </pre>
 
 Links
@@ -143,5 +152,13 @@ http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-t
 
 IMPORTANT
 ---------
-- The project got its own subproject in wicketstuff called wicketstuff-jee-web
+- Will be available in Version 6.18.0 / 7.0.0-M4
+- Dependency:
+<pre>
+&lt;dependency&gt;
+	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+	&lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
+	&lt;version&gt;/version/&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
 
