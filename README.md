@@ -66,7 +66,7 @@ JSP-Fragment:
 &lt;/form&gt;
 </pre>
 
-mypackage.MyPage2:
+mypackage.TestPage2:
 ```java
 public TestPage2(PageParameters parameters){
 	String hiddenparam = RequestCycle.get().getRequest()
@@ -83,7 +83,7 @@ JSP-Fragment:
 &lt;/form&gt;
 </pre>
 
-mypackage.MyPage2:
+mypackage.TestPage2:
 ```java
 public TestPage2(PageParameters parameters){
 	String hiddenparam = parameters.get("hiddenparam").toString();
@@ -98,7 +98,7 @@ WebApplication:
     @Override
     protected void init() {
 	super.init();
-		getPageSettings().addComponentResolver(new JEEWebGlobalAjaxHandler());
+		getPageSettings().addComponentResolver(new JEEWebResolver());
 		JEEWebGlobalAjaxHandler.configure(this);
     }
 ```
