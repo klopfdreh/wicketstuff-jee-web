@@ -12,4 +12,35 @@
 		<module>jee-web</module>
 		<module>jee-web-examples</module>
 	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>com.mycila.maven-license-plugin</groupId>
+					<artifactId>maven-license-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<header>./header.txt</header>
+						<failIfMissing>true</failIfMissing>
+						<aggregate>true</aggregate>
+						<excludes>
+							<exclude>**/src/test/resources/**</exclude>
+							<exclude>**/*.csv</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>check-headers</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
