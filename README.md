@@ -144,6 +144,11 @@ In JSP with Javascript:
 &lt;/script&gt;
 </pre>
 
+Forms (GET / POST given as String to the EL function)
+<pre>
+&lt;form onsubmit="${wicket:ajaxFormSubmit('POST')}"&gt; .... &lt;/form&gt;
+</pre>
+
 Links
 ------
 https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
