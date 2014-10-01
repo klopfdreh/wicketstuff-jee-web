@@ -34,6 +34,10 @@ public class JEEWebResolverTest
 		TestApplication testApplication = new TestApplication();
 		MockServletContext mockServletContext = new MockServletContext(testApplication, new File(
 			"src/test/webapp").getCanonicalPath());
+		
+//		Wicket 7
+//		mockServletContext.addServlet("/TestServlet", new HttpServlet(){});
+		
 		WicketTester wicketTester = new WicketTester(testApplication, mockServletContext);
 		wicketTester.startPage(TestServletAndJSPPage.class);
 		String lastResponse = wicketTester.getLastResponseAsString();
