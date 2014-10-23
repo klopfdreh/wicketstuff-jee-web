@@ -151,8 +151,8 @@ Forms (GET / POST given as String to the EL function)
 
 Links
 ------
-https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
-http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-td4407174.html
+* https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
+* http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-td4407174.html
 
 
 IMPORTANT
