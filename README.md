@@ -2,6 +2,18 @@ wicketstuff-jee-web (previously wicket.jsp)
 ==========
 The JEEWebResolver is used to embed Servlet, JSP abd JSF content into wicked HTML pages, by a custom Wicket-Tag. It is tested with Wicket 6.x / 7.x. Because include is used to apply the content, every restrictions of include is applied to the embed content. (No header modifications and so on). To use it you should registered it to the page settings in the init-Method of the Wicket-Application:
 
+IMPORTANT
+---------
+- Is now available in Version 6.18.0 / 7.0.0-M4 of its own wicketstuff project. (wicketstuff-jee-web)
+- Dependency:
+<pre>
+&lt;dependency&gt;
+	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+	&lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
+	&lt;version&gt;/version/&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+
 Setup
 -----
 WebApplication:
@@ -153,17 +165,3 @@ Links
 ------
 * https://cwiki.apache.org/confluence/display/WICKET/Including+JSP+files+in+HTML+templates
 * http://apache-wicket.1842946.n4.nabble.com/Wicket-1-5-and-JSP-servlet-wrapping-td4407174.html
-
-
-IMPORTANT
----------
-- Will be available in Version 6.18.0 / 7.0.0-M4
-- Dependency:
-<pre>
-&lt;dependency&gt;
-	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-	&lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
-	&lt;version&gt;/version/&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
-
