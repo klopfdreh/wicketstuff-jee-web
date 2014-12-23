@@ -7,11 +7,11 @@ IMPORTANT
 - Is now available in Version 6.18.0 / 7.0.0-M4 of its own wicketstuff project. (wicketstuff-jee-web)
 - Dependency:
 <pre>
-&lt;dependency&gt;
-   &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-   &lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
-   &lt;version&gt;/version/&lt;/version&gt;
-&lt;/dependency&gt;
+   &lt;dependency&gt;
+      &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+      &lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
+      &lt;version&gt;/version/&lt;/version&gt;
+   &lt;/dependency&gt;
 </pre>
 
 Setup
