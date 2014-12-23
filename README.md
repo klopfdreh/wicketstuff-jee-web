@@ -8,9 +8,9 @@ IMPORTANT
 - Dependency:
 <pre>
 &lt;dependency&gt;
-	&lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
-	&lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
-	&lt;version&gt;/version/&lt;/version&gt;
+   &lt;groupId&gt;org.wicketstuff&lt;/groupId&gt;
+   &lt;artifactId&gt;wicketstuff-jee-web&lt;/artifactId&gt;
+   &lt;version&gt;/version/&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 
