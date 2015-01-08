@@ -14,6 +14,11 @@ IMPORTANT
    &lt;/dependency&gt;
 </pre>
 
+Links to Wicketstuff
+---------
+* https://github.com/wicketstuff/core/wiki/JEE-Web-Integration
+* https://github.com/wicketstuff/core/tree/master/jdk-1.7-parent/jee-web-parent
+
 Setup
 -----
 WebApplication:
